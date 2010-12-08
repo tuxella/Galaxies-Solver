@@ -29,11 +29,17 @@ class board(object):
                 if ((0 == (j % 2)) and (0 == (i % 2))):
                     self.board[i].append("+")
                     continue
-                if (0 == (j % 2)):
+                if ((0 == i) or (2 * width == i)):
+                    self.board[i].append("-")
+                    continue
+                if (0 == j) or (2 * height == j):
                     self.board[i].append("|")
                     continue
+                if (0 == (j % 2)):
+                    self.board[i].append(".")
+                    continue
                 if (0 == (i % 2)):
-                    self.board[i].append("-")
+                    self.board[i].append(".")
                     continue
                 self.board[i].append(" ")
     # TODO: find a reasonable memory reresentation for the array"
