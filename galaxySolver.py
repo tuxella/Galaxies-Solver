@@ -40,25 +40,26 @@ class board(object):
                     continue
                 self.board[i].append(" ")
 
-    def pprint(self):
-        print " ",
+    def toString(self):
+        ret = " "
+        ret = ret + ""
         for j in range(0, len(self.board[0])):
             if (0 <> (j % 2)):
-                print "%d" % ((j - 1) / 2),
+                ret = ret + "%d" % ((j - 1) / 2)
             else:
-                print " ",
-        print "j"
+                ret = ret + " "
+        ret = ret + "j\n"
         for i in range(0, len(self.board)):
             if (0 <> (i % 2)):
-                print "%d" % ((i - 1) / 2),
+                ret = ret + "%d" % ((i - 1) / 2)
             else:
-                print " ",
+                ret = ret + " "
             for j in range(0, len(self.board[i])):
-                print self.board[i][j],
+                ret = ret + self.board[i][j]
 #        print self.board
-            print
-        print "i"
-
+            ret = ret + "\n"
+        ret = ret + "i\n"
+        return ret
 
     def addDot(self, i, j):
         print "addDot(%d, %d)" % (i, j)
@@ -113,7 +114,6 @@ class board(object):
         print "Symetric point : (%d, %d)" % (si, sj)
         if ((si < 0) or (sj < 0)):
             return False
-#        print "w : %d h : %d" % (self._width, self.height)
         if ((si > self._width) or (sj > self._height)):
             return False
         if (self._cellContainsDot(si, sj)):
@@ -140,6 +140,24 @@ class SelfSufficiantTest(unittest.TestCase):
     def testAddDotWithinBounds(self):
         b = board(4, 4)
         b.addDot(2, 2)
+
+    def testToString(self):
+        b = board(4, 4)
+        b.addDot(2, 2)
+        self.assertEqual(
+            """  0 1 2 3 j
+ +-+-+-+-+
+0|       |
+ + + + + +
+1|       |
+ + + + + +
+2|    o  |
+ + + + + +
+3|       |
+ +-+-+-+-+
+i
+""", b.toString())
+
 
 
 if __name__ == "__main__":
