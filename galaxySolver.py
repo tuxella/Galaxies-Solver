@@ -11,9 +11,6 @@ A cell can belong to a shape if the symetric cell on the other side of the dot:
 """
 cellExample = {"x" : 0, "y" : 0}
 
-def c_(x, y):
-    return {"x":x, "y":y}
-
 class board(object):
     def __init__(self, width, height):
         """
@@ -36,42 +33,121 @@ class board(object):
                     self.board[i].append("|")
                     continue
                 if (0 == (j % 2)):
-                    self.board[i].append(".")
+                    self.board[i].append(" ")
                     continue
                 if (0 == (i % 2)):
-                    self.board[i].append(".")
+                    self.board[i].append(" ")
                     continue
                 self.board[i].append(" ")
-    # TODO: find a reasonable memory reresentation for the array"
-    #Question: How to create a 2 dimensions array in python ?
+
     def pprint(self):
+        print " ",
+        for j in range(0, len(self.board[0])):
+            if (0 <> (j % 2)):
+                print "%d" % ((j - 1) / 2),
+            else:
+                print " ",
+        print "j"
         for i in range(0, len(self.board)):
+            if (0 <> (i % 2)):
+                print "%d" % ((i - 1) / 2),
+            else:
+                print " ",
             for j in range(0, len(self.board[i])):
                 print self.board[i][j],
 #        print self.board
             print
+        print "i"
+
+
+    def addDot(self, i, j):
+        print "addDot(%d, %d)" % (i, j)
+        self.board[i * 2 + 1][j * 2 + 1] = "o"
+
+    def addWall(self, i, j, orientation):
+        """
+        Orientation = h or v (horizontal or vertical)
+        If horizontal : i = row number after which create the wal
+        If vertical : i = row number after which create the wall
+        j = the nth wall to add (1, 2, 3 ...)
+        """
+        print "addWall(%d, %d) : %s" % (i, j, orientation)
+        if ("h" == orientation):
+            self.board[i * 2][j * 2 - 1] = "-"
+        if ("v" == orientation):
+            self.board[i * 2 - 1][j * 2] = "|"
 
     def _createPossibleBelongingsGraph(self):
         """
         For each cell, every dots it can belong to
         """
+    def _cellContainsDot(self, i, j):
+        print "cellContainsDot : cell = (%d, %d)" % (i, j)
+        if ("o" == self.board[2 * i + 1][2 * j + 1]):
+            return True
+        return False
 
-    def _cellCanBelongToDot(self):
+    def _symetricCell(self, ci, cj, centerI, centerJ):
+        return {"i":centerI + (centerI - ci), "j":centerJ + (centerJ - cj)}
+
+    def cellCanBelongToDot(self,ci, cj, di, dj):
         """
         True if the cell on the oposite side of the dot:
             - belongs to the board
             - doesn't contain a dot
             - isn't edged by a dot
         """
+        print "cellCanBelongToDot : cell = (%d, %d) dot = (%d, %d)" % (ci, cj, di, dj)
+        cellToDoti = di - ci
+        cellToDotj = dj - cj
+        sPoint = self._symetricCell(ci, cj, di, dj)
+        si = sPoint["i"]
+        sj = sPoint["j"]
+        print "Symetric point : (%d, %d)" % (si, sj)
+        if ((si < 0) or (sj < 0)):
+            return False
+#        print "w : %d h : %d" % (self._width, self.height)
+        if ((si > self._width) or (sj > self._height)):
+            return False
+        if (self._cellContainsDot(si, sj)):
+            return False
 
-    def _symetricPosition(cell, dot):
-        """
-        """
+        return True
 
 
-myBoard = board(3,3) # 7 * 7 array
-myBoard.board[3][3] = "o"
+myBoard = board(4,4)
+#myBoard.board[3][3] = "o"
+
+
+myBoard.addDot(1, 0)
+myBoard.addDot(1, 1)
+myBoard.addDot(2, 2)
+myBoard.addWall(1, 1, "h")
+myBoard.addWall(1, 2, "h")
+myBoard.addWall(1, 3, "h")
+myBoard.addWall(1, 1, "v")
+myBoard.addWall(1, 2, "v")
+myBoard.addWall(1, 3, "v")
+
+
+
 myBoard.pprint()
+
+#print myBoard.cellCanBelongToDot(1, 1, 1, 0)
+#print myBoard.cellCanBelongToDot(2, 2, 1, 1)
+#print myBoard.cellCanBelongToDot(1, 1, 1, 0)
+print myBoard.cellCanBelongToDot(0, 0, 1, 1)
+
+#print myBoard._cellContainsDot(1, 0)
+#print myBoard._cellContainsDot(1, 1)
+#print myBoard._cellContainsDot(2, 2)
+#print myBoard._cellContainsDot(2, 3)
+#print myBoard._cellContainsDot(3, 3)
+
+
+
+#myBoard.addWall(0, 0, "v")
+
 
 
 """
@@ -79,6 +155,7 @@ Example of a board (7 x 7):
 c = cell
 o = dot
 | or - = edge
+. : no edge
 + = empty (nothing can be put at the crossing of 2 edges)
 
 + - + - + - +
@@ -89,5 +166,14 @@ o = dot
 |   |   |   |
 + - + - + - +
 
+
+Positions : 
++ - + - + - +
+|0,0.   .   |
++ . + . + . +
+|1,0.   .   |
++ . + . + . +
+|   .   .   |
++ - + - + - +
 
 """
