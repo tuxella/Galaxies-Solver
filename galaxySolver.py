@@ -90,6 +90,13 @@ class board(object):
     def _symetricCell(self, ci, cj, centerI, centerJ):
         return {"i":centerI + (centerI - ci), "j":centerJ + (centerJ - cj)}
 
+    def cellIsWithinBoard(self, i, j):
+        if ((i < 0) or (j < 0)):
+            return False
+        if ((i >= self._width) or (j >= self._height)):
+            return False
+        return True
+
     def cellCanBelongToDot(self,ci, cj, di, dj):
         """
         True if the cell on the oposite side of the dot:
@@ -113,6 +120,31 @@ class board(object):
             return False
 
         return True
+
+
+
+import unittest
+
+class SelfSufficiantTest(unittest.TestCase):
+#    knownBoard.addWall(1, 1, "h")
+
+    def testIsCellWithin(self):
+        b = board(4, 4)
+        self.assertTrue(b.cellIsWithinBoard(0, 0))
+        self.assertTrue(b.cellIsWithinBoard(1, 1))
+        self.assertTrue(b.cellIsWithinBoard(2, 2))
+        self.assertTrue(b.cellIsWithinBoard(3, 3))
+        self.assertFalse(b.cellIsWithinBoard(-1, 1))
+        self.assertFalse(b.cellIsWithinBoard(1, 4))
+
+    def testAddDotWithinBounds(self):
+        b = board(4, 4)
+        b.addDot(2, 2)
+
+
+if __name__ == "__main__":
+    unittest.main()
+    exit (0)
 
 
 myBoard = board(4,4)
