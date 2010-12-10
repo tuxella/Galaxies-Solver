@@ -62,7 +62,7 @@ class board(object):
         return ret
 
     def addDot(self, i, j):
-        print "addDot(%d, %d)" % (i, j)
+ #       print "addDot(%d, %d)" % (i, j)
         self.board[i * 2 + 1][j * 2 + 1] = "o"
 
     def addWall(self, i, j, orientation):
@@ -72,7 +72,7 @@ class board(object):
         If vertical : i = row number after which create the wall
         j = the nth wall to add (1, 2, 3 ...)
         """
-        print "addWall(%d, %d) : %s" % (i, j, orientation)
+#        print "addWall(%d, %d) : %s" % (i, j, orientation)
         if ("h" == orientation):
             self.board[i * 2][j * 2 - 1] = "-"
         if ("v" == orientation):
@@ -83,7 +83,7 @@ class board(object):
         For each cell, every dots it can belong to
         """
     def _cellContainsDot(self, i, j):
-        print "cellContainsDot : cell = (%d, %d)" % (i, j)
+#        print "cellContainsDot : cell = (%d, %d)" % (i, j)
         if ("o" == self.board[2 * i + 1][2 * j + 1]):
             return True
         return False
