@@ -74,6 +74,7 @@ class board(object):
         #integerIfied positions
         ii = int(i * 2 + 1)
         ij = int(j * 2 + 1)
+        assert not ((ii == ij) and (0 == ii % 2) and (0 == ij % 2)), "It is not possible to create a dot on an intersection (%d, %d)" % (ii, ij)
         if self.isWall(ii, ij):
             self.board[ii][ij] = self._dotWall
         else:
