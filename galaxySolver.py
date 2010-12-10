@@ -72,10 +72,13 @@ class board(object):
 
     def addDot(self, i, j):
  #       print "addDot(%d, %d)" % (i, j)
-        if self.isWall(i * 2 + 1, j * 2 + 1):
-            self.board[i * 2 + 1][j * 2 + 1] = self._dotWall
+        #integerIfied positions
+        ii = int(i * 2 + 1)
+        ij = int(j * 2 + 1)
+        if self.isWall(ii, ij):
+            self.board[ii][ij] = self._dotWall
         else:
-            self.board[i * 2 + 1][j * 2 + 1] = self._dotCell
+            self.board[ii][ij] = self._dotCell
 
     def addWall(self, i, j, orientation):
         """
@@ -105,9 +108,9 @@ class board(object):
         """
         For each cell, every dots it can belong to
         """
-    def _cellContainsDot(self, i, j):
+    def cellContainsDot(self, i, j):
 #        print "cellContainsDot : cell = (%d, %d)" % (i, j)
-        if (self.isDot(self.board[2 * i + 1][2 * j + 1])):
+        if self.isDot(2 * i + 1, 2 * j + 1):
             return True
         return False
 
@@ -139,19 +142,24 @@ class board(object):
             return False
         if ((si > self._width) or (sj > self._height)):
             return False
-        if (self._cellContainsDot(si, sj)):
+        if (self.cellContainsDot(si, sj)):
             return False
 
         return True
 
     def isWall(self, i, j):
-        if self.board[i][j] in self._wallS:
+        ii = int(i)
+        ij = int(j)
+        if self.board[ii][ij] in self._wallS:
             return True
         return False
 
     def isDot(self, i, j):
+        ii = int(i)
+        ij = int(j)
+        if self.board[ii][ij] in self._dotS:
+            return True
         return False
-
 
     def dots(self):
         for i in range(0, len(self.board)):
@@ -243,36 +251,32 @@ i
         self.assertTrue(b.isWall(2, 1))
         self.assertTrue(b.isWall(1, 2))
 
+    def testDotOnEdge(self):
+        b = board(2,2)
+        b.addDot(1.5, 1)
+        print b.toString()
 
+
+    def testDotOnWall(self):
+        b = board(2,2)
+        b.addDot(1.5, 1)
+        self.assertEquals(
+            """  0 1 j
+ +-+-+
+0|   |
+ + + +
+1|   |
+ +-+ø+
+i
+""", b.toString())
+
+    def testFloats(self):
+        b = board(4, 4)
+        self.assertTrue(b.cellIsWithinBoard(0.5, 0.5))
+        b.addDot(1.5, 1.5)
+        self.assertTrue(b.cellContainsDot(1.5, 1.5))
 
 if __name__ == "__main__":
     unittest.main()
     exit (0)
 
-"""
-Example of a board (7 x 7):
-c = cell
-o = dot
-| or - = edge
-. : no edge
-+ = empty (nothing can be put at the crossing of 2 edges)
-
-+ - + - + - +
-|   | c |   |
-+ - + - + - +
-|   | o |   |
-+ - + - + - +
-|   |   |   |
-+ - + - + - +
-
-
-Positions : 
-+ - + - + - +
-|0,0.   .   |
-+ . + . + . +
-|1,0.   .   |
-+ . + . + . +
-|   .   .   |
-+ - + - + - +
-
-"""
