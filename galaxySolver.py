@@ -120,13 +120,22 @@ class board(object):
             return False
 
         return True
+    def dots(self):
+        for i in range(0, len(self.board)):
+            for j in range(0, len(self.board[i])):
+                if ("o" == self.board[i][j]):
+                    yield {"i":i, "j":j}
 
-
+    def cells(self):
+        for i in range(1, len(self.board), 2):
+            for j in range(1, len(self.board[i]), 2):
+                yield {"i":i, "j":j}
+    def isSolved(self):
+        return False
 
 import unittest
 
 class SelfSufficiantTest(unittest.TestCase):
-#    knownBoard.addWall(1, 1, "h")
 
     def testIsCellWithin(self):
         b = board(4, 4)
