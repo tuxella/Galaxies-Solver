@@ -65,7 +65,6 @@ class board(object):
                 ret = ret + " "
             for j in range(0, len(self.board[i])):
                 ret = ret + self.board[i][j]
-#        print self.board
             ret = ret + "\n"
         ret = ret + "i\n"
         return ret
@@ -112,6 +111,16 @@ class board(object):
 #        print "cellContainsDot : cell = (%d, %d)" % (i, j)
         if self.isDot(2 * i + 1, 2 * j + 1):
             return True
+
+        if self.isDot(2 * i    , 2 * j + 1):
+            return True
+        if self.isDot(2 * i + 2, 2 * j + 1):
+            return True
+        if self.isDot(2 * i + 1, 2 * j    ):
+            return True
+        if self.isDot(2 * i + 1, 2 * j + 2):
+            return True
+
         return False
 
     def _symetricCell(self, ci, cj, centerI, centerJ):
@@ -254,7 +263,7 @@ i
     def testDotOnEdge(self):
         b = board(2,2)
         b.addDot(1.5, 1)
-        print b.toString()
+#        print b.toString()
 
 
     def testDotOnWall(self):
@@ -275,6 +284,13 @@ i
         self.assertTrue(b.cellIsWithinBoard(0.5, 0.5))
         b.addDot(1.5, 1.5)
         self.assertTrue(b.cellContainsDot(1.5, 1.5))
+
+
+    def testCellIsFilledByOnlyOneDotOnItsEdge(self):
+        b = board(4, 4)
+        b.addDot(1.5, 1)
+        print b.toString()
+        self.assertTrue(b.cellContainsDot(1, 1))
 
 if __name__ == "__main__":
     unittest.main()
