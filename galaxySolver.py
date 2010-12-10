@@ -11,7 +11,16 @@ A cell can belong to a shape if the symetric cell on the other side of the dot:
 """
 cellExample = {"x" : 0, "y" : 0}
 
+
+
 class board(object):
+    _wallS="-|ø"
+    _dotS="oø"
+    _wallv = "|"
+    _wallh = "-"
+    _wallDot = "ø"
+    _dotCell = "o"
+    _dotWall = "ø"
     def __init__(self, width, height):
         """
         Creates the object from its width and height.
@@ -120,6 +129,16 @@ class board(object):
             return False
 
         return True
+
+    def isWall(self, i, j):
+        if self.board[i][j] in self._wallS:
+            return True
+        return False
+
+    def isDot(self, i, j):
+        return False
+
+
     def dots(self):
         for i in range(0, len(self.board)):
             for j in range(0, len(self.board[i])):
@@ -130,6 +149,7 @@ class board(object):
         for i in range(1, len(self.board), 2):
             for j in range(1, len(self.board[i]), 2):
                 yield {"i":i, "j":j}
+
     def isSolved(self):
         return False
 
@@ -198,6 +218,19 @@ i
         for d in b.dots():
             self.assertEquals(d, expectedDots[i])
             i = i + 1
+
+    def testIsWall(self):
+        b = board(2,2)
+        self.assertFalse(b.isWall(1, 1))
+        b.addWall(1, 1, "h")
+        print
+        print b.toString()
+        self.assertTrue(b.isWall(2, 1))
+        self.assertFalse(b.isWall(1, 2))
+        b.addWall(1, 1, "v")
+        self.assertTrue(b.isWall(2, 1))
+        self.assertTrue(b.isWall(1, 2))
+
 
 
 if __name__ == "__main__":
