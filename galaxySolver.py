@@ -124,7 +124,7 @@ class board(object):
 
         return False
 
-    def _symetricCell(self, ci, cj, centerI, centerJ):
+    def symetricCell(self, ci, cj, centerI, centerJ):
         return {"i":centerI + (centerI - ci), "j":centerJ + (centerJ - cj)}
 
     def cellIsWithinBoard(self, i, j):
@@ -141,16 +141,13 @@ class board(object):
             - doesn't contain a dot
             - isn't edged by a dot
         """
-        print "cellCanBelongToDot : cell = (%d, %d) dot = (%d, %d)" % (ci, cj, di, dj)
+#        print "cellCanBelongToDot : cell = (%d, %d) dot = (%d, %d)" % (ci, cj, di, dj)
         cellToDoti = di - ci
         cellToDotj = dj - cj
-        sPoint = self._symetricCell(ci, cj, di, dj)
+        sPoint = self.symetricCell(ci, cj, di, dj)
         si = sPoint["i"]
         sj = sPoint["j"]
-        print "Symetric point : (%d, %d)" % (si, sj)
-        if ((si < 0) or (sj < 0)):
-            return False
-        if ((si > self._width) or (sj > self._height)):
+        if not self.cellIsWithinBoard(si, sj):
             return False
         if (self.cellContainsDot(si, sj)):
             return False
@@ -283,16 +280,41 @@ i
     def testFloats(self):
         b = board(4, 4)
         self.assertTrue(b.cellIsWithinBoard(0.5, 0.5))
-        b.addDot(1.5, 1.5)
-        self.assertTrue(b.cellContainsDot(1.5, 1.5))
+        b.addDot(1.5, 2.5)
+        self.assertTrue(b.cellContainsDot(1.5, 2.5))
 
 
     def testCellIsFilledByOnlyOneDotOnItsEdge(self):
         b = board(4, 4)
         b.addDot(1.5, 1)
-        print b.toString()
         self.assertTrue(b.cellContainsDot(1, 1))
+        self.assertTrue(b.cellContainsDot(2, 1))
+        self.assertFalse(b.cellContainsDot(1, 2))
 
+
+    def testCellCanBelongToDotFullCells(self):
+        b = board(4, 4)
+        b.addDot(1, 2)
+        self.assertTrue(b.cellCanBelongToDot(0, 2, 1, 2))
+        b.addDot(2, 2)
+        self.assertFalse(b.cellCanBelongToDot(0, 2, 1, 2))
+
+    def testCellCanBelongToDotOutOfBoard(self):
+        b = board(4, 4)
+        b.addDot(3, 3)
+        self.assertFalse(b.cellCanBelongToDot(0, 0, 3, 3))
+        self.assertFalse(b.cellCanBelongToDot(0, 0, 2, 0))
+
+    def testCellCanBelongToDotEdged(self):
+        b = board(4, 4)
+        b.addDot(1, 2)
+        print
+        print b.toString()
+        self.assertTrue(b.cellCanBelongToDot(0, 2, 1, 2))
+        b.addDot(2, 1.5)
+        self.assertFalse(b.cellCanBelongToDot(0, 2, 1, 2))
+
+#        def cellCanBelongToDot(self,ci, cj, di, dj):
 if __name__ == "__main__":
     unittest.main()
     exit (0)
