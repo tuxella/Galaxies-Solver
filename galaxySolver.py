@@ -167,47 +167,42 @@ class SelfSufficiantTest(unittest.TestCase):
 i
 """, b.toString())
 
+    def testEmptyBoardIsNotSolved(self):
+        b = board(4, 4)
+        b.addDot(1, 1)
+        self.assertFalse(b.isSolved())
+
+    def testMinimalSolvedBoard(self):
+        b = board(3, 3)
+        b.addDot(1, 1)
+        self.assertTrue(b.isSolved())
+
+    def testEmptyBoardCells(self):
+        expectedCells = []
+        expectedCells.append({"i":1, "j":1})
+        expectedCells.append({"i":1, "j":3})
+        expectedCells.append({"i":3, "j":1})
+        expectedCells.append({"i":3, "j":3})
+        b = board(2,2)
+        i = 0
+        for c in b.cells():
+            self.assertEquals(c, expectedCells[i])
+            i = i + 1
+
+    def testMinimalBoardDots(self):
+        expectedDots = []
+        expectedDots.append({"i":1, "j":1})
+        b = board(2,2)
+        b.addDot(0,0)
+        i = 0
+        for d in b.dots():
+            self.assertEquals(d, expectedDots[i])
+            i = i + 1
 
 
 if __name__ == "__main__":
     unittest.main()
     exit (0)
-
-
-myBoard = board(4,4)
-#myBoard.board[3][3] = "o"
-
-
-myBoard.addDot(1, 0)
-myBoard.addDot(1, 1)
-myBoard.addDot(2, 2)
-myBoard.addWall(1, 1, "h")
-myBoard.addWall(1, 2, "h")
-myBoard.addWall(1, 3, "h")
-myBoard.addWall(1, 1, "v")
-myBoard.addWall(1, 2, "v")
-myBoard.addWall(1, 3, "v")
-
-
-
-myBoard.pprint()
-
-#print myBoard.cellCanBelongToDot(1, 1, 1, 0)
-#print myBoard.cellCanBelongToDot(2, 2, 1, 1)
-#print myBoard.cellCanBelongToDot(1, 1, 1, 0)
-print myBoard.cellCanBelongToDot(0, 0, 1, 1)
-
-#print myBoard._cellContainsDot(1, 0)
-#print myBoard._cellContainsDot(1, 1)
-#print myBoard._cellContainsDot(2, 2)
-#print myBoard._cellContainsDot(2, 3)
-#print myBoard._cellContainsDot(3, 3)
-
-
-
-#myBoard.addWall(0, 0, "v")
-
-
 
 """
 Example of a board (7 x 7):
