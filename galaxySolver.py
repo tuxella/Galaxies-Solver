@@ -184,9 +184,54 @@ class Board(object):
             - Doesn't contain any wall (excepting for its edges)
         """
 
+    def wallsAroundCell(self, i, j):
+        """
+
+        """
+    def edgesAroundCell(self, i, j):
+        """
+        Gives the coordinates of edges around a cell.
+        Thus it converts coordinates from one system (cells mesured by halfs) to the other (edges
+        mesured by whole edges)
+        """
+        ret = set()
+        ret.add((i * 2, j * 2 + 1))
+        ret.add((i * 2 + 1, j * 2))
+        ret.add(((i + 1) * 2, j * 2 + 1))
+        ret.add(((i * 2 + 1, (j + 1) * 2)))
+
+        return ret
+
 import unittest
 
 class SelfSufficiantTest(unittest.TestCase):
+    def testWallsAround00Cell(self):
+        b = Board(4,4)
+        expected = set()
+        expected.add((0, 1))
+        expected.add((1, 0))
+        expected.add((2, 1))
+        expected.add((1, 2))
+        self.assertEquals(b.edgesAroundCell(0, 0), expected)
+
+    def testWallsAroundCentralCell(self):
+        b = Board(4,4)
+        expected = set()
+        expected.add((3, 2))
+        expected.add((2, 3))
+        expected.add((4, 3))
+        expected.add((3, 4))
+        self.assertEquals(b.edgesAroundCell(1, 1), expected)
+
+    def testWallsAroundAsymCell(self):
+        b = Board(4,4)
+        expected = set()
+        expected.add((3, 4))
+        expected.add((3, 6))
+        expected.add((2, 5))
+        expected.add((4, 5))
+        self.assertEquals(b.edgesAroundCell(1, 2), expected)
+
 
     def testIsCellWithin(self):
         b = Board(4, 4)
@@ -292,7 +337,6 @@ i
         self.assertTrue(b.cellContainsDot(1, 1))
         self.assertTrue(b.cellContainsDot(2, 1))
         self.assertFalse(b.cellContainsDot(1, 2))
-
 
     def testCellCanBelongToDotFullCells(self):
         b = Board(4, 4)
