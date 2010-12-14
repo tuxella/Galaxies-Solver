@@ -199,8 +199,13 @@ class Board(object):
 
     def wallsAroundCell(self, i, j):
         """
-
         """
+        ret = set()
+        for edge in self.edgesAroundCell(i, j):
+            if self.isWall(edge[0], edge[1]):
+                ret.add(edge)
+        return ret
+
     def edgesAroundCell(self, i, j):
         """
         Gives the coordinates of edges around a cell.
@@ -255,11 +260,36 @@ class SelfSufficiantTest(unittest.TestCase):
     def testWallsAroundSomeWalledCell(self):
         b = Board(4,4)
         expected = set()
-        b.addWall(2, 3, "v")
-#        print
-#        print b.toString()
+        b.addWallShort(4, 5)
+        expected.add((4, 5))
+        self.assertEquals(b.wallsAroundCell(2, 2), expected)
+
+    def testWallsAroundSomeFullyWalledCell(self):
+        b = Board(4,4)
+        expected = set()
+        b.addWallShort(4, 5)
+        b.addWallShort(6, 5)
+        b.addWallShort(5, 4)
+        b.addWallShort(5, 6)
+
+        expected.add((4, 5))
+        expected.add((6, 5))
+        expected.add((5, 4))
         expected.add((5, 6))
- #       self.assertEquals(b.wallsAroundCell(2, 2), expected)
+        self.assertEquals(b.wallsAroundCell(2, 2), expected)
+
+    def testWallsAroundSomeFullyWalledCellAsym(self):
+        b = Board(4,4)
+        expected = set()
+        b.addWallShort(2, 5)
+        b.addWallShort(4, 5)
+        b.addWallShort(3, 4)
+        b.addWallShort(3, 6)
+        expected.add((2, 5))
+        expected.add((4, 5))
+        expected.add((3, 4))
+        expected.add((3, 6))
+        self.assertEquals(b.wallsAroundCell(1, 2), expected)
 
 
     def testEdgessAround00Cell(self):
