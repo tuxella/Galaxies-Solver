@@ -22,43 +22,43 @@ class Board(object):
         """
         self._width = width
         self._height = height
-        self.Board = []
+        self.board = []
         for i in range(0, 2 * width + 1):
-            self.Board.append([])
+            self.board.append([])
             for j in range(0, 2 * height + 1):
                 if ((0 == (j % 2)) and (0 == (i % 2))):
-                    self.Board[i].append("+")
+                    self.board[i].append("+")
                     continue
                 if ((0 == i) or (2 * width == i)):
-                    self.Board[i].append("-")
+                    self.board[i].append("-")
                     continue
                 if (0 == j) or (2 * height == j):
-                    self.Board[i].append("|")
+                    self.board[i].append("|")
                     continue
                 if (0 == (j % 2)):
-                    self.Board[i].append(" ")
+                    self.board[i].append(" ")
                     continue
                 if (0 == (i % 2)):
-                    self.Board[i].append(" ")
+                    self.board[i].append(" ")
                     continue
-                self.Board[i].append(" ")
+                self.board[i].append(" ")
 
     def toString(self):
         ret = " "
         ret = ret + ""
-        for j in range(0, len(self.Board[0])):
+        for j in range(0, len(self.board[0])):
             if (0 <> (j % 2)):
                 ret = ret + "%d" % ((j - 1) / 2)
             else:
                 ret = ret + " "
         ret = ret + "j\n"
-        for i in range(0, len(self.Board)):
+        for i in range(0, len(self.board)):
             if (0 <> (i % 2)):
                 ret = ret + "%d" % ((i - 1) / 2)
             else:
                 ret = ret + " "
-            for j in range(0, len(self.Board[i])):
-                ret = ret + self.Board[i][j]
+            for j in range(0, len(self.board[i])):
+                ret = ret + self.board[i][j]
             ret = ret + "\n"
         ret = ret + "i\n"
         return ret
@@ -70,9 +70,9 @@ class Board(object):
         ij = int(j * 2 + 1)
         assert not ((ii == ij) and (0 == ii % 2) and (0 == ij % 2)), "It is not possible to create a dot on an intersection (%d, %d)" % (ii, ij)
         if self.isWall(ii, ij):
-            self.Board[ii][ij] = self._dotWall
+            self.board[ii][ij] = self._dotWall
         else:
-            self.Board[ii][ij] = self._dotCell
+            self.board[ii][ij] = self._dotCell
 
     def addWall(self, i, j, orientation):
         """
@@ -83,14 +83,14 @@ class Board(object):
         """
         if ("h" == orientation):
             if self.isDot(i * 2, j * 2 - 1):
-                self.Board[i * 2][j * 2 - 1] = self._dotWall
+                self.board[i * 2][j * 2 - 1] = self._dotWall
             else:
-                self.Board[i * 2][j * 2 - 1] = self._wallh
+                self.board[i * 2][j * 2 - 1] = self._wallh
         if ("v" == orientation):
             if self.isDot(i * 2 - 1, j * 2):
-                self.Board[i * 2 - 1][j * 2] = self._dotWall
+                self.board[i * 2 - 1][j * 2] = self._dotWall
             else:
-                self.Board[i * 2 - 1][j * 2] = self._wallv
+                self.board[i * 2 - 1][j * 2] = self._wallv
 
     def addWallShort(self, i, j):
         """
@@ -99,16 +99,16 @@ class Board(object):
         """
         assert not ((0 ==  i % 2) and (0 == j % 2)), "Cannot create a wall on crossings : (%d, %d)" % (i, j)
 
-        if (self.Board[i][j] in self._dotS):
-            self.Board[i][j] = self._dotWall
+        if (self.board[i][j] in self._dotS):
+            self.board[i][j] = self._dotWall
             return
 
         if (0 ==  i % 2):
-            self.Board[i][j] = self._wallh
+            self.board[i][j] = self._wallh
             return
 
         if (0 ==  j % 2):
-            self.Board[i][j] = self._wallv
+            self.board[i][j] = self._wallv
             return
 
     def _createPossibleBelongingsGraph(self):
@@ -164,26 +164,26 @@ class Board(object):
     def isWall(self, i, j):
         ii = int(i)
         ij = int(j)
-        if self.Board[ii][ij] in self._wallS:
+        if self.board[ii][ij] in self._wallS:
             return True
         return False
 
     def isDot(self, i, j):
         ii = int(i)
         ij = int(j)
-        if self.Board[ii][ij] in self._dotS:
+        if self.board[ii][ij] in self._dotS:
             return True
         return False
 
     def dots(self):
-        for i in range(0, len(self.Board)):
-            for j in range(0, len(self.Board[i])):
-                if ("o" == self.Board[i][j]):
+        for i in range(0, len(self.board)):
+            for j in range(0, len(self.board[i])):
+                if ("o" == self.board[i][j]):
                     yield {"i":i, "j":j}
 
     def cells(self):
-        for i in range(1, len(self.Board), 2):
-            for j in range(1, len(self.Board[i]), 2):
+        for i in range(1, len(self.board), 2):
+            for j in range(1, len(self.board[i]), 2):
                 yield {"i":i, "j":j}
 
     def isSolved(self):
