@@ -77,16 +77,10 @@ class Board(object):
     def addWall(self, i, j, orientation):
         """
         Orientation = h or v (horizontal or vertical)
-        If horizontal : i = row number after which create the wal
+        If horizontal : i = row number after which create the wall
         If vertical : i = row number after which create the wall
         j = the nth wall to add (1, 2, 3 ...)
         """
-#        print "addWall(%d, %d) : %s" % (i, j, orientation)
-        if self.isWall(i * 2 + 1, j * 2 + 1):
-            self.Board[i * 2 + 1][j * 2 + 1] = self._dotWall
-        else:
-            self.Board[i * 2 + 1][j * 2 + 1] = self._dotCell
-
         if ("h" == orientation):
             if self.isDot(i * 2, j * 2 - 1):
                 self.Board[i * 2][j * 2 - 1] = self._dotWall
@@ -97,6 +91,25 @@ class Board(object):
                 self.Board[i * 2 - 1][j * 2] = self._dotWall
             else:
                 self.Board[i * 2 - 1][j * 2] = self._wallv
+
+    def addWallShort(self, i, j):
+        """
+        Add a wall on the board.
+        Arguments are taken in the wall way (full cells only)
+        """
+        assert not ((0 ==  i % 2) and (0 == j % 2)), "Cannot create a wall on crossings : (%d, %d)" % (i, j)
+
+        if (self.Board[i][j] in self._dotS):
+            self.Board[i][j] = self._dotWall
+            return
+
+        if (0 ==  i % 2):
+            self.Board[i][j] = self._wallh
+            return
+
+        if (0 ==  j % 2):
+            self.Board[i][j] = self._wallv
+            return
 
     def _createPossibleBelongingsGraph(self):
         """
@@ -199,13 +212,57 @@ class Board(object):
         ret.add((i * 2 + 1, j * 2))
         ret.add(((i + 1) * 2, j * 2 + 1))
         ret.add(((i * 2 + 1, (j + 1) * 2)))
-
         return ret
 
 import unittest
 
 class SelfSufficiantTest(unittest.TestCase):
+    def testAddWallShortForm(self):
+        b = Board(4, 4)
+        b.addWallShort(1, 2)
+        self.assertTrue(b.isWall(1, 2))
+        self.assertFalse(b.isWall(1, 4))
+        self.assertFalse(b.isWall(2, 1))
+        self.assertFalse(b.isDot(1, 3))
+        b.addWallShort(0, 1)
+        self.assertTrue(b.isWall(0, 1))
+        self.assertTrue(b.isWall(1, 2))
+        self.assertFalse(b.isWall(1, 4))
+        self.assertFalse(b.isWall(2, 1))
+        self.assertFalse(b.isDot(1, 3))
+
+    def testAddWall(self):
+        b = Board(4, 4)
+        b.addWall(1, 1, "h")
+        self.assertTrue(b.isWall(2, 1))
+
+    def testWallsAroundCentralCell(self):
+        b = Board(4,4)
+        expected = set()
+        expected.add((0, 1))
+        expected.add((1, 0))
+        expected.add((2, 1))
+        expected.add((1, 2))
+        self.assertEquals(b.wallsAroundCell(1, 1), set())
+
     def testWallsAround00Cell(self):
+        b = Board(4,4)
+        expected = set()
+        expected.add((0, 1))
+        expected.add((1, 0))
+        self.assertEquals(b.wallsAroundCell(0, 0), expected)
+
+    def testWallsAroundSomeWalledCell(self):
+        b = Board(4,4)
+        expected = set()
+        b.addWall(2, 3, "v")
+#        print
+#        print b.toString()
+        expected.add((5, 6))
+ #       self.assertEquals(b.wallsAroundCell(2, 2), expected)
+
+
+    def testEdgessAround00Cell(self):
         b = Board(4,4)
         expected = set()
         expected.add((0, 1))
@@ -214,7 +271,7 @@ class SelfSufficiantTest(unittest.TestCase):
         expected.add((1, 2))
         self.assertEquals(b.edgesAroundCell(0, 0), expected)
 
-    def testWallsAroundCentralCell(self):
+    def testEdgesAroundCentralCell(self):
         b = Board(4,4)
         expected = set()
         expected.add((3, 2))
@@ -223,7 +280,7 @@ class SelfSufficiantTest(unittest.TestCase):
         expected.add((3, 4))
         self.assertEquals(b.edgesAroundCell(1, 1), expected)
 
-    def testWallsAroundAsymCell(self):
+    def testEdgesAroundAsymCell(self):
         b = Board(4,4)
         expected = set()
         expected.add((3, 4))
@@ -304,6 +361,7 @@ i
         b.addWall(1, 1, "v")
         self.assertTrue(b.isWall(2, 1))
         self.assertTrue(b.isWall(1, 2))
+
 
     def testDotOnEdge(self):
         b = Board(2,2)
