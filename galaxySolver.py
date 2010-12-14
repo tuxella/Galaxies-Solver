@@ -219,6 +219,11 @@ class Board(object):
         ret.add(((i * 2 + 1, (j + 1) * 2)))
         return ret
 
+    def shapeAroundCell(self, i, j):
+        """
+        Returns the list of cells which are inside the same shape (range of cells delimited by walls
+        """
+
 import unittest
 
 class SelfSufficiantTest(unittest.TestCase):
