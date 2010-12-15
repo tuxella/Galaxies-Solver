@@ -11,3 +11,6 @@
 # emacs specific
 \#*#
 \.#*#
+
+.~lock.*#
+/CellsCalculation.ods
