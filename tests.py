@@ -4,6 +4,11 @@ from galaxySolver import Board
 import unittest
 
 class SelfSufficiantTest(unittest.TestCase):
+
+#    def testFillBoard(self):
+#        b = Board(7, 7)
+#        b.fillBoard("7x7:bfzecdzdujfewjij")
+
     def testEmptyBoardPossibleDots(self):
         expectedCells = []
         expectedCells.append({"i":1, "j":1})
@@ -22,25 +27,19 @@ class SelfSufficiantTest(unittest.TestCase):
 
     def testPosPlusOffset(self):
         b = Board(2, 2)
-        self.assertEquals(b._posPlusOffset(1, 1, 3), {"i": 1,"j": 2})
+        self.assertEquals(b._posPlusOffset(1, 1, 3), {"i": 2,"j": 1})
 
     def testPosPlusOffsetWIthinColumn(self):
         b = Board(4, 4)
-        self.assertEquals(b._posPlusOffset(1, 1, 4), {"i": 5,"j": 1})
+        self.assertEquals(b._posPlusOffset(1, 1, 4), {"i": 1,"j": 5})
 
     def testPosPlusOffsetMultiColumn(self):
         b = Board(4, 4)
-        self.assertEquals(b._posPlusOffset(1, 1, 7), {"i": 1,"j": 2})
+        self.assertEquals(b._posPlusOffset(1, 1, 7), {"i": 2,"j": 1})
 
     def testPosPlusOffsetWholeBoard(self):
         b = Board(4, 4)
         self.assertEquals(b._posPlusOffset(1, 1, 39), {"i": 7,"j": 7})
-
-
-
-#    def testFillBoard(self):
-#        b = Board(7, 7)
-#        b.fillBoard("7x7:bfzecdzdujfewjij")
 
     def testAddWallShortForm(self):
         b = Board(4, 4)
