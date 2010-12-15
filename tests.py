@@ -4,6 +4,31 @@ from galaxySolver import Board
 import unittest
 
 class SelfSufficiantTest(unittest.TestCase):
+    def testEmptyBoardPossibleDots(self):
+        expectedCells = []
+        expectedCells.append({"i":1, "j":1})
+        expectedCells.append({"i":1, "j":2})
+        expectedCells.append({"i":1, "j":3})
+        expectedCells.append({"i":2, "j":1})
+        expectedCells.append({"i":2, "j":3})
+        expectedCells.append({"i":3, "j":1})
+        expectedCells.append({"i":3, "j":2})
+        expectedCells.append({"i":3, "j":3})
+        b = Board(2,2)
+        i = 0
+        for c in b.dotsPossiblePlaces():
+            self.assertEquals(c, expectedCells[i])
+            i = i + 1
+
+
+    def testPosPlusOffset(self):
+        b = Board(4, 4)
+        self.assertEquals(b._posPlusOffset(0, 0, 3), {"i": 1,"j": 1})
+
+#    def testFillBoard(self):
+#        b = Board(7, 7)
+#        b.fillBoard("7x7:bfzecdzdujfewjij")
+
     def testAddWallShortForm(self):
         b = Board(4, 4)
         b.addWallShort(1, 2)

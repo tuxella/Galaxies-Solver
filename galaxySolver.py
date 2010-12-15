@@ -175,6 +175,13 @@ class Board(object):
             return True
         return False
 
+    def dotsPossiblePlaces(self):
+        for i in range(1, len(self.board) - 1):
+            for j in range(1, len(self.board[i]) - 1):
+                if (not ((0 == (i % 2)) and (0 == (j % 2)))):
+                    yield {"i":i, "j":j}
+
+
     def dots(self):
         for i in range(0, len(self.board)):
             for j in range(0, len(self.board[i])):
