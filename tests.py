@@ -20,10 +20,23 @@ class SelfSufficiantTest(unittest.TestCase):
             self.assertEquals(c, expectedCells[i])
             i = i + 1
 
-
     def testPosPlusOffset(self):
+        b = Board(2, 2)
+        self.assertEquals(b._posPlusOffset(1, 1, 3), {"i": 1,"j": 2})
+
+    def testPosPlusOffsetWIthinColumn(self):
         b = Board(4, 4)
-        self.assertEquals(b._posPlusOffset(0, 0, 3), {"i": 1,"j": 1})
+        self.assertEquals(b._posPlusOffset(1, 1, 4), {"i": 5,"j": 1})
+
+    def testPosPlusOffsetMultiColumn(self):
+        b = Board(4, 4)
+        self.assertEquals(b._posPlusOffset(1, 1, 7), {"i": 1,"j": 2})
+
+    def testPosPlusOffsetWholeBoard(self):
+        b = Board(4, 4)
+        self.assertEquals(b._posPlusOffset(1, 1, 39), {"i": 7,"j": 7})
+
+
 
 #    def testFillBoard(self):
 #        b = Board(7, 7)

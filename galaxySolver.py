@@ -193,6 +193,15 @@ class Board(object):
             for j in range(1, len(self.board[i]), 2):
                 yield {"i":i, "j":j}
 
+    def _posPlusOffset(self, i, j, offset):
+        for mj in range(j, len(self.board[i]) - 1):
+            for mi in range(i, len(self.board) - 1):
+                if (not ((0 == (mi % 2)) and (0 == (mj % 2)))):
+                    if (not ((0 == (mi % 2)) and (0 == (mj % 2)))):
+                        if (0 >= offset):
+                            return {"i":mi, "j":mj}
+                        offset = offset - 1
+
     def isSolved(self):
         return False
 
