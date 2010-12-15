@@ -25,6 +25,18 @@ class SelfSufficiantTest(unittest.TestCase):
             self.assertEquals(c, expectedCells[i])
             i = i + 1
 
+    def testPosPlusOffsetLineOverflow(self):
+        b = Board(4, 4)
+        self.assertEquals(b._posPlusOffset(3, 2, 6), {"i": 4, "j": 1})
+
+    def testPosPlusOffsetOutOfRange(self):
+        b = Board(2, 2)
+        self.assertEquals(b._posPlusOffset(1, 1, 10), None)
+
+    def testPosPlusOffsetOutOfRangeBorder(self):
+        b = Board(4, 4)
+        self.assertEquals(b._posPlusOffset(1, 1, 40), None)
+
     def testPosPlusOffset(self):
         b = Board(2, 2)
         self.assertEquals(b._posPlusOffset(1, 1, 3), {"i": 2,"j": 1})
