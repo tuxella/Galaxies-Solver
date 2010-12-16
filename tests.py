@@ -3,11 +3,118 @@
 from galaxySolver import Board
 import unittest
 
-class SelfSufficiantTest(unittest.TestCase):
+#class OtherTests(unittest.TestCase):
+class OtherTests():
+    def testFillBoardDumb(self):
+        b = Board(7, 7)
+        return
+        b.fillBoard("7x7:ab") # 14 dots 
+#        b.fillBoard("7x7:abbbccxhh") # 14 dots 
+        print
+        print b.toString()
+        return
+        self.assertEqual(
+            """  0 1 2 3 4 5 6 j
+ +-+-+-+-+-+-+-+
+0|o o o o  o  o|
+ + + + + + + + +
+1|          o  |
+ + + + # + + + +
+2|o            |
+ + + + + + + + +
+3|             |
+ + + + + + + + +
+4|             |
+ + + + + + + + +
+5|             |
+ + + + + + + + +
+6|             |
+ +-+-+-+-+-+-+-+
+i
+""", b.toString())
 
-#    def testFillBoard(self):
-#        b = Board(7, 7)
-#        b.fillBoard("7x7:bfzecdzdujfewjij")
+
+class SelfSufficiantTest(unittest.TestCase):
+    def testFillBoardDumb(self):
+        b = Board(7, 7)
+        return
+        b.fillBoard("7x7:abbbccxh") # 14 dots 
+        self.assertEqual(
+            """  0 1 2 3 4 5 6 j
+ +-+-+-+-+-+-+-+
+0|o o o o  o  o|
+ + + + + + + + +
+1|          o  |
+ + + + # + + + +
+2|             |
+ + + + + + + + +
+3|             |
+ + + + + + + + +
+4|             |
+ + + + + + + + +
+5|             |
+ + + + + + + + +
+6|             |
+ +-+-+-+-+-+-+-+
+i
+""", b.toString())
+
+    def testFillBoardDumb(self):
+        b = Board(7, 7)
+        return
+        b.fillBoard("7x7:abbbccxhh") # 14 dots 
+        print
+        print b.toString()
+        return
+        self.assertEqual(
+            """  0 1 2 3 4 5 6 j
+ +-+-+-+-+-+-+-+
+0|o o o o  o  o|
+ + + + + + + + +
+1|          o  |
+ + + + # + + + +
+2|o            |
+ + + + + + + + +
+3|             |
+ + + + + + + + +
+4|             |
+ + + + + + + + +
+5|             |
+ + + + + + + + +
+6|             |
+ +-+-+-+-+-+-+-+
+i
+""", b.toString())
+
+
+    def testFillBoardReal(self):
+        b = Board(7, 7)
+#        b.fillBoard("7x7:hiinifpzkeqbsh") # 14 dots
+        return
+        b.fillBoard("7x7:hiin") # 14 dots
+        print
+        print b.toString()
+        return
+        self.assertEqual(
+            """  0 1 2 3 4 5 6 j
+ +-+-+-+-+-+-+-+
+0|o o o o  o  o|
+ + + + + + + + +
+1|          o  |
+ + + + # + + + +
+2|             |
+ + + + + + + + +
+3|             |
+ + + + + + + + +
+4|             |
+ + + + + + + + +
+5|             |
+ + + + + + + + +
+6|             |
+ +-+-+-+-+-+-+-+
+i
+""", b.toString())
+
 
     def testEmptyBoardPossibleDots(self):
         expectedCells = []
@@ -15,6 +122,7 @@ class SelfSufficiantTest(unittest.TestCase):
         expectedCells.append({"i":1, "j":2})
         expectedCells.append({"i":1, "j":3})
         expectedCells.append({"i":2, "j":1})
+        expectedCells.append({"i":2, "j":2})
         expectedCells.append({"i":2, "j":3})
         expectedCells.append({"i":3, "j":1})
         expectedCells.append({"i":3, "j":2})
@@ -29,13 +137,25 @@ class SelfSufficiantTest(unittest.TestCase):
         b = Board(4, 4)
         self.assertEquals(b._posPlusOffset(3, 2, 6), {"i": 4, "j": 1})
 
+    def testPosPlusZero(self):
+        b = Board(4, 4)
+        self.assertEquals(b._posPlusOffset(3, 2, 0), {"i": 3, "j": 2})
+
+    def testPosPlusOffsetLineInnerBorder(self):
+        b = Board(3, 3)
+        self.assertEquals(b._posPlusOffset(1, 5, 1), {"i": 2, "j": 1})
+
+    def testPosPlusOffsetExactOverflow(self):
+        b = Board(3, 3)
+        self.assertEquals(b._posPlusOffset(1, 5, 6), {"i": 3, "j": 1})
+
     def testPosPlusOffsetOutOfRange(self):
         b = Board(2, 2)
         self.assertEquals(b._posPlusOffset(1, 1, 10), None)
 
     def testPosPlusOffsetOutOfRangeBorder(self):
         b = Board(4, 4)
-        self.assertEquals(b._posPlusOffset(1, 1, 40), None)
+        self.assertEquals(b._posPlusOffset(1, 1, 49), None)
 
     def testPosPlusOffset(self):
         b = Board(2, 2)
@@ -49,9 +169,17 @@ class SelfSufficiantTest(unittest.TestCase):
         b = Board(4, 4)
         self.assertEquals(b._posPlusOffset(1, 1, 7), {"i": 2,"j": 1})
 
+    def testPosPlusOffsetCellToWall(self):
+        b = Board(4, 4)
+        self.assertEquals(b._posPlusOffset(1, 1, 1), {"i": 1,"j": 2})
+
+    def testPosPlusOffsetCellToCrossing(self):
+        b = Board(4, 4)
+        self.assertEquals(b._posPlusOffset(2, 1, 1), {"i": 2,"j": 2})
+
     def testPosPlusOffsetWholeBoard(self):
         b = Board(4, 4)
-        self.assertEquals(b._posPlusOffset(1, 1, 39), {"i": 7,"j": 7})
+        self.assertEquals(b._posPlusOffset(1, 1, 48), {"i": 7,"j": 7})
 
     def testAddWallShortForm(self):
         b = Board(4, 4)
@@ -158,7 +286,7 @@ class SelfSufficiantTest(unittest.TestCase):
         self.assertTrue(b.cellIsWithinBoard(2, 2))
         self.assertTrue(b.cellIsWithinBoard(3, 3))
         self.assertFalse(b.cellIsWithinBoard(-1, 1))
-        self.assertFalse(b.cellIsWithinBoard(1, 4))
+        self.assertFalse(b.cellIsWithinBoard(1, 10))
 
     def testAddDotWithinBounds(self):
         b = Board(4, 4)
@@ -171,10 +299,29 @@ class SelfSufficiantTest(unittest.TestCase):
             """  0 1 2 3 j
  +-+-+-+-+
 0|       |
- + + + + +
+ + # + + +
 1|       |
  + + + + +
-2|    o  |
+2|       |
+ + + + + +
+3|       |
+ +-+-+-+-+
+i
+""", b.toString())
+
+
+    def testToStringOnCrossing(self):
+        b = Board(4, 4)
+        b.addDot(2, 2)
+        b.addDot(3, 3)
+        self.assertEqual(
+            """  0 1 2 3 j
+ +-+-+-+-+
+0|       |
+ + # + + +
+1|  o    |
+ + + + + +
+2|       |
  + + + + +
 3|       |
  +-+-+-+-+
@@ -205,7 +352,7 @@ i
 
     def testMinimalBoardDots(self):
         expectedDots = []
-        expectedDots.append({"i":1, "j":1})
+        expectedDots.append({"i":0, "j":0})
         b = Board(2,2)
         b.addDot(0,0)
         i = 0
@@ -226,57 +373,91 @@ i
 
     def testDotOnEdge(self):
         b = Board(2,2)
-        b.addDot(1.5, 1)
+        b.addDot(3, 2)
 #        print b.toString()
 
 
     def testDotOnWall(self):
         b = Board(2,2)
-        b.addDot(1.5, 1)
+        b.addWallShort(1, 2)
+        b.addDot(1, 2)
         self.assertEquals(
             """  0 1 j
  +-+-+
-0|   |
+0| ø |
  + + +
 1|   |
- +-+ø+
+ +-+-+
 i
 """, b.toString())
 
+
+    def testAddDotOnCrossing(self):
+        b = Board(4, 4)
+        b.addDot(4, 4)
+        self.assertTrue(b.isDot(4, 4))
+
     def testFloats(self):
         b = Board(4, 4)
-        self.assertTrue(b.cellIsWithinBoard(0.5, 0.5))
-        b.addDot(1.5, 2.5)
-        self.assertTrue(b.cellContainsDot(1.5, 2.5))
-
+        self.assertTrue(b.cellIsWithinBoard(1, 1))
+        b.addDot(3, 5)
+        self.assertTrue(b.cellContainsDot(3, 5))
 
     def testCellIsFilledByOnlyOneDotOnItsEdge(self):
         b = Board(4, 4)
-        b.addDot(1.5, 1)
-        self.assertTrue(b.cellContainsDot(1, 1))
-        self.assertTrue(b.cellContainsDot(2, 1))
-        self.assertFalse(b.cellContainsDot(1, 2))
+        b.addDot(3, 2)
+        self.assertTrue(b.cellContainsDot(2, 2))
+        self.assertTrue(b.cellContainsDot(3, 1))
+        self.assertTrue(b.cellContainsDot(3, 3))
+        self.assertTrue(b.cellContainsDot(4, 1))
 
     def testCellCanBelongToDotFullCells(self):
         b = Board(4, 4)
         b.addDot(1, 2)
-        self.assertTrue(b.cellCanBelongToDot(0, 2, 1, 2))
+        self.assertTrue(b.cellCanBelongToDot(1, 1, 1, 2))
+
         b.addDot(2, 2)
         self.assertFalse(b.cellCanBelongToDot(0, 2, 1, 2))
 
     def testCellCanBelongToDotOutOfBoard(self):
         b = Board(4, 4)
-        b.addDot(3, 3)
-        self.assertFalse(b.cellCanBelongToDot(0, 0, 3, 3))
-        self.assertFalse(b.cellCanBelongToDot(0, 0, 2, 0))
+        b.addDot(7, 7)
+        self.assertFalse(b.cellCanBelongToDot(0, 0, 7, 7))
+        self.assertFalse(b.cellCanBelongToDot(0, 0, 0, 6))
 
     def testCellCanBelongToDotEdged(self):
         b = Board(4, 4)
         b.addDot(1, 2)
-        self.assertTrue(b.cellCanBelongToDot(0, 2, 1, 2))
-        b.addDot(2, 1.5)
-        self.assertFalse(b.cellCanBelongToDot(0, 2, 1, 2))
+        self.assertTrue(b.cellCanBelongToDot(1, 1, 1, 2))
+        b.addDot(1, 4)
+        self.assertFalse(b.cellCanBelongToDot(1, 1, 1, 2))
 
+    def testCanPutDotOutOfBounds(self):
+        b = Board(2, 2)
+        self.assertFalse(b._canPutDot(-1, 0))
+        self.assertFalse(b._canPutDot(2, -1))
+        self.assertFalse(b._canPutDot(4, 0))
+        self.assertFalse(b._canPutDot(1, 4))
+        self.assertTrue(b._canPutDot(1, 2))
+
+    def testCanPutDotAroundDots(self):
+        b = Board(4, 4)
+        self.assertTrue(b._canPutDot(1, 2))
+        b.addDot(1, 2)
+        self.assertFalse(b._canPutDot(1, 2))
+        self.assertTrue(b._canPutDot(4, 3))
+
+    def testCanPutDotAroundBorders(self):
+        b = Board(4, 4)
+        self.assertFalse(b._canPutDot(1, 0))
+        self.assertTrue(b._canPutDot(1, 1))
+        self.assertTrue(b._canPutDot(1, 2))
+        self.assertTrue(b._canPutDot(1, 3))
+        self.assertTrue(b._canPutDot(1, 4))
+        self.assertTrue(b._canPutDot(1, 5))
+        self.assertTrue(b._canPutDot(1, 6))
+        self.assertTrue(b._canPutDot(1, 7))
+        self.assertFalse(b._canPutDot(1, 8))
 
 
 if __name__ == "__main__":
