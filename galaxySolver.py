@@ -76,25 +76,28 @@ class Board(object):
             """ Error """
         if (height <> self._height):
             """ Error """
-        posi = 0
-        posj = 0
+        posi = 1
+        posj = 1
 #        print "desc : [%s]" % desc
         first = 1 # the offset "a" is only allowed as the first char of the description.
         for c in desc:
 #            print "-------"
 #            print "Former pos : (%d, %d)" % (posi, posj)
             offset = ord(c) - ord("a") + 1 - first
+            if ("z" == c):
+                offset = 25
             first = 0
 #            print "char : %s => offset = %d" % (c, offset)
             nextPos = self._posPlusOffset(posi, posj, offset)
             posi = nextPos["i"]
             posj = nextPos["j"]
-            if self._canPutDot(int(posi * 2 + 1), int(posj * 2 + 1)):
-#                print "Adding dot at (%.1f, %.1f) (%s)" % (posi, posj, c)
-                self.addDot(posi / 2.0, posj / 2.0)
+            if ("z" == c):
+                continue
+            if self._canPutDot(posi, posj):
+                self.addDot(posi, posj)
             else:
- #               print "Cannot put dot : (%.1f, %.1f) (%s)" % (posi, posj, c)
-                return
+               print "Cannot put dot : (%.1f, %.1f) (%s)" % (posi, posj, c)
+               return
 
     def toString(self):
         ret = " "

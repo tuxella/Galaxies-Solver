@@ -3,69 +3,10 @@
 from galaxySolver import Board
 import unittest
 
-#class OtherTests(unittest.TestCase):
-class OtherTests():
-    def testFillBoardDumb(self):
-        b = Board(7, 7)
-        return
-        b.fillBoard("7x7:ab") # 14 dots 
-#        b.fillBoard("7x7:abbbccxhh") # 14 dots 
-        print
-        print b.toString()
-        return
-        self.assertEqual(
-            """  0 1 2 3 4 5 6 j
- +-+-+-+-+-+-+-+
-0|o o o o  o  o|
- + + + + + + + +
-1|          o  |
- + + + # + + + +
-2|o            |
- + + + + + + + +
-3|             |
- + + + + + + + +
-4|             |
- + + + + + + + +
-5|             |
- + + + + + + + +
-6|             |
- +-+-+-+-+-+-+-+
-i
-""", b.toString())
-
-
 class SelfSufficiantTest(unittest.TestCase):
     def testFillBoardDumb(self):
         b = Board(7, 7)
-        return
-        b.fillBoard("7x7:abbbccxh") # 14 dots 
-        self.assertEqual(
-            """  0 1 2 3 4 5 6 j
- +-+-+-+-+-+-+-+
-0|o o o o  o  o|
- + + + + + + + +
-1|          o  |
- + + + # + + + +
-2|             |
- + + + + + + + +
-3|             |
- + + + + + + + +
-4|             |
- + + + + + + + +
-5|             |
- + + + + + + + +
-6|             |
- +-+-+-+-+-+-+-+
-i
-""", b.toString())
-
-    def testFillBoardDumb(self):
-        b = Board(7, 7)
-        return
         b.fillBoard("7x7:abbbccxhh") # 14 dots 
-        print
-        print b.toString()
-        return
         self.assertEqual(
             """  0 1 2 3 4 5 6 j
  +-+-+-+-+-+-+-+
@@ -89,28 +30,23 @@ i
 
     def testFillBoardReal(self):
         b = Board(7, 7)
-#        b.fillBoard("7x7:hiinifpzkeqbsh") # 14 dots
-        return
-        b.fillBoard("7x7:hiin") # 14 dots
-        print
-        print b.toString()
-        return
+        b.fillBoard("7x7:hiinifpzkeqbsh") # 14 dots
         self.assertEqual(
             """  0 1 2 3 4 5 6 j
  +-+-+-+-+-+-+-+
-0|o o o o  o  o|
- + + + + + + + +
-1|          o  |
+0|       o     |
+ + + # + + + +o+
+1|             |
+ +o+ + + + # + +
+2|  o          |
  + + + # + + + +
-2|             |
- + + + + + + + +
 3|             |
  + + + + + + + +
-4|             |
- + + + + + + + +
-5|             |
- + + + + + + + +
-6|             |
+4|  o    o     |
+ + + + + + + # +
+5|o            |
+ + + + +o+ + + +
+6| o           |
  +-+-+-+-+-+-+-+
 i
 """, b.toString())
