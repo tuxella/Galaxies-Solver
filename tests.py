@@ -292,6 +292,23 @@ i
         b = Board(4, 4)
         b.addDot(2, 2)
 
+    def testAddDotIsNotDash(self):
+        b = Board(4, 4)
+        b.addDot(2, 2)
+        b.addDot(2, 1)
+        self.assertEqual("""  0 1 2 3 j
+ +-+-+-+-+
+0|       |
+ +o# + + +
+1|       |
+ + + + + +
+2|       |
+ + + + + +
+3|       |
+ +-+-+-+-+
+i
+""", b.toString())
+
     def testToString(self):
         b = Board(4, 4)
         b.addDot(2, 2)

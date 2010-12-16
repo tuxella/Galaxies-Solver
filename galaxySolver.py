@@ -119,7 +119,7 @@ class Board(object):
     def addDot(self, i, j):
  #       print "addDot(%d, %d)" % (i, j)
         #integerIfied positions
-        if ((0 == (i % 2)) and (0 == (i % 2))):
+        if ((0 == (i % 2)) and (0 == (j % 2))):
             self.board[i][j] = self._dotCross
             return
         if self.isWall(i, j):
