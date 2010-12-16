@@ -459,6 +459,12 @@ i
         self.assertTrue(b._canPutDot(1, 7))
         self.assertFalse(b._canPutDot(1, 8))
 
+    def testCellContainsDotExcept(self):
+        b = Board(4, 4)
+        b.addDot(3, 3)
+        self.assertFalse(b.cellContainsDotExcept(3, 3, 3, 3))
+        self.assertTrue(b.cellContainsDotExcept(3, 3, 3, 2))
+
 
 if __name__ == "__main__":
     unittest.main()
