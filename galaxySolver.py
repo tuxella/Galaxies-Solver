@@ -96,7 +96,7 @@ class Board(object):
             if self._canPutDot(posi, posj):
                 self.addDot(posi, posj)
             else:
-               print "Cannot put dot : (%.1f, %.1f) (%s)" % (posi, posj, c)
+               print "Cannot put dot : (%d, %d) (%s)" % (posi, posj, c)
                return
 
     def toString(self):
