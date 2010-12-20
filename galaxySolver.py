@@ -78,20 +78,16 @@ class Board(object):
             """ Error """
         posi = 1
         posj = 1
-#        print "desc : [%s]" % desc
         first = 1 # the offset "a" is only allowed as the first char of the description.
         for c in desc:
-#            print "-------"
-#            print "Former pos : (%d, %d)" % (posi, posj)
             offset = ord(c) - ord("a") + 1 - first
             if ("z" == c):
-                offset = 25
+                offset = 25 # z means 25 blanks and no dot
             first = 0
-#            print "char : %s => offset = %d" % (c, offset)
             nextPos = self._posPlusOffset(posi, posj, offset)
             posi = nextPos["i"]
             posj = nextPos["j"]
-            if ("z" == c):
+            if ("z" == c): # z means 25 blanks and no dot
                 continue
             if self._canPutDot(posi, posj):
                 self.addDot(posi, posj)
