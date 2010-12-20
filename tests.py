@@ -4,9 +4,25 @@ from galaxySolver import Board
 import unittest
 
 class SelfSufficiantTest(unittest.TestCase):
+    def testShapeInEmptyBoard(self):
+        expectedCells = []
+        expectedCells.append({"i":0, "j":1})
+        expectedCells.append({"i":0, "j":3})
+        expectedCells.append({"i":1, "j":1})
+        expectedCells.append({"i":3, "j":4})
+        expectedCells.append({"i":4, "j":3})
+        expectedCells.append({"i":4, "j":1})
+        expectedCells.append({"i":1, "j":0})
+        b = Board(2,2)
+        i = 0
+        for c in b.findShapeAroundCell(1, 1):
+            self.assertTrue(c in expectedCells[i])
+            i = i + 1
+        self.assertEquals(i, len(expectedCells))
+
     def testFillBoardDumb(self):
         b = Board(7, 7)
-        b.fillBoard("7x7:abbbccxhh") # 14 dots 
+        b.fillBoard("7x7:abbbccxhh") # 14 dots
         self.assertEqual(
             """  0 1 2 3 4 5 6 j
  +-+-+-+-+-+-+-+
