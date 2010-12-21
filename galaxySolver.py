@@ -314,10 +314,22 @@ class Board(object):
             return ret
 
 
-    def shapeAroundCell(self, i, j):
+    def adjacentCells(self, i, j):
         """
         Returns the list of cells which are inside the same shape (range of cells delimited by walls
         """
+        ret = set()
+        if ((0 <> (i % 2)) and (0 <> (j % 2))):
+            # Full cell
+            if self.cellIsWithinBoard(i - 2, j):
+                ret.add((i - 2, j))
+            if self.cellIsWithinBoard(i + 2, j):
+                ret.add((i + 2, j))
+            if self.cellIsWithinBoard(i, j - 2):
+                ret.add((i, j - 2))
+            if self.cellIsWithinBoard(i, j + 2):
+                ret.add((i, j + 2))
+        return ret
 
     def _canPutDot(self, i, j):
 #        print "CPD (%d, %d)" % (i, j)

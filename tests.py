@@ -4,6 +4,36 @@ from galaxySolver import Board
 import unittest
 
 class SelfSufficiantTest(unittest.TestCase):
+    def testAdjacentCellsCentral(self):
+        b = Board(4, 4)
+        expected = set()
+        expected.add((5, 1))
+        expected.add((5, 5))
+        expected.add((3, 3))
+        expected.add((7, 3))
+        self.assertEquals(expected, b.adjacentCells(5, 3))
+
+    def testAdjacentCellsOutOfBound(self):
+        b = Board(4, 4)
+        expected = set()
+        expected.add((5, 7))
+        expected.add((7, 5))
+        self.assertEquals(expected, b.adjacentCells(7, 7))
+
+    def testAdjacentCellsCrossing(self):
+        b = Board(4, 4)
+        expected = set()
+        self.assertEquals(expected, b.adjacentCells(7, 6))
+
+    def testAdjacentCellsAsym(self):
+        b = Board(4, 4)
+        expected = set()
+        expected.add((7, 3))
+        expected.add((7, 7))
+        expected.add((5, 5))
+
+        self.assertEquals(expected, b.adjacentCells(7, 5))
+
     def testShapeInEmptyBoard(self):
         return
         expectedCells = []
