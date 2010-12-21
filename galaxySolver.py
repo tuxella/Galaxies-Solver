@@ -243,9 +243,7 @@ class Board(object):
         return True
 
     def isWall(self, i, j):
-        ii = int(i)
-        ij = int(j)
-        if self.board[ii][ij] in self._wallS:
+        if self.board[i][j] in self._wallS:
             return True
         return False
 
@@ -308,11 +306,31 @@ class Board(object):
         mesured by whole edges)
         """
         ret = set()
-        ret.add((i * 2, j * 2 + 1))
-        ret.add((i * 2 + 1, j * 2))
-        ret.add(((i + 1) * 2, j * 2 + 1))
-        ret.add(((i * 2 + 1, (j + 1) * 2)))
-        return ret
+        if ((0 <> (i % 2)) and (0 <> (j % 2))):
+            ret.add((i - 1, j))
+            ret.add((i + 1, j))
+            ret.add((i, j - 1))
+            ret.add((i, j + 1))
+            return ret
+        if ((0 == (i % 2)) and (0 == (j % 2))):
+            return ret
+        if (0 == (i % 2)):
+            ret.add((i - 2, j    ))
+            ret.add((i - 1, j - 1))
+            ret.add((i - 1, j + 1))
+            ret.add((i + 1, j - 1))
+            ret.add((i + 1, j + 1))
+            ret.add((i + 2, j    ))
+            return ret
+        if (0 == (j % 2)):
+            ret.add((i    , j - 2))
+            ret.add((i - 1, j - 1))
+            ret.add((i + 1, j - 1))
+            ret.add((i - 1, j + 1))
+            ret.add((i + 1, j + 1))
+            ret.add((i    , j + 2))
+            return ret
+
 
     def shapeAroundCell(self, i, j):
         """
