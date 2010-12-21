@@ -606,6 +606,10 @@ i
         self.assertFalse(b.cellContainsDotExcept(3, 3, 3, 3))
         self.assertTrue(b.cellContainsDotExcept(3, 3, 3, 2))
 
+    def testSymetricCell(self):
+        b = Board(4, 4)
+        self.assertEquals(b.symetricCell(1, 1, 1, 2), {"i": 1,"j":3})
+        self.assertEquals(b.symetricCell(1, 1, 3, 3), {"i": 5,"j":5})
 
 if __name__ == "__main__":
     unittest.main()
