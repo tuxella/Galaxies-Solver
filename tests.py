@@ -42,22 +42,13 @@ class SelfSufficiantTest(unittest.TestCase):
         b.addWall(5, 2)
         self.assertEquals(expected, b.adjacentCells(5, 3))
 
-    def testShapeInEmptyBoard(self):
-        return
-        expectedCells = []
-        expectedCells.append({"i":0, "j":1})
-        expectedCells.append({"i":0, "j":3})
-        expectedCells.append({"i":1, "j":1})
-        expectedCells.append({"i":3, "j":4})
-        expectedCells.append({"i":4, "j":3})
-        expectedCells.append({"i":4, "j":1})
-        expectedCells.append({"i":1, "j":0})
-        b = Board(2,2)
-        i = 0
-        for c in b.findShapeAroundCell(1, 1):
-            self.assertTrue(c in expectedCells[i])
-            i = i + 1
-        self.assertEquals(i, len(expectedCells))
+    def testAdjacentCellsCentralWithWall(self):
+        b = Board(2, 2)
+        expected = set()
+        expected.add((3, 1))
+        b.addWall(1, 2)
+        b.addWall(3, 2)
+        self.assertEquals(expected, b.adjacentCells(1, 1))
 
     def testFillBoardDumb(self):
         b = Board(7, 7)

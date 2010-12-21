@@ -327,7 +327,7 @@ class Board(object):
                 ret.add((i + 2, j))
             if self.cellIsWithinBoard(i, j - 2) and (not self.isWall(i, j - 1)):
                 ret.add((i, j - 2))
-            if self.cellIsWithinBoard(i, j + 2) and (not self.isWall(i, j + 2)):
+            if self.cellIsWithinBoard(i, j + 2) and (not self.isWall(i, j + 1)):
                 ret.add((i, j + 2))
         return ret
 
