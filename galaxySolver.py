@@ -320,29 +320,23 @@ class Board(object):
         """
         ret = set()
         if ((0 <> (i % 2)) and (0 <> (j % 2))):
-            # Full cell
-            if self.cellIsWithinBoard(i - 2, j):
+            # We can only look for adjacent cells on actual cells (ones that can't contain a wall)
+            if self.cellIsWithinBoard(i - 2, j) and (not self.isWall(i - 1, j)):
                 ret.add((i - 2, j))
-            if self.cellIsWithinBoard(i + 2, j):
+            if self.cellIsWithinBoard(i + 2, j) and (not self.isWall(i + 1, j)):
                 ret.add((i + 2, j))
-            if self.cellIsWithinBoard(i, j - 2):
+            if self.cellIsWithinBoard(i, j - 2) and (not self.isWall(i, j - 1)):
                 ret.add((i, j - 2))
-            if self.cellIsWithinBoard(i, j + 2):
+            if self.cellIsWithinBoard(i, j + 2) and (not self.isWall(i, j + 2)):
                 ret.add((i, j + 2))
         return ret
 
     def _canPutDot(self, i, j):
-#        print "CPD (%d, %d)" % (i, j)
-#        print "1"
         if ((0 >= i) or (0 >= j)):
             return False
- #       print "2 (%d, %d)" % (i, j)
- #       print "%d" % (len(self.board) - 1)
- #       print "%d" % (len(self.board[0]) - 1)
         if (((len(self.board) - 1) <= i) or
             ((len(self.board[0]) - 1) <= j)):
             return False
-  #      print "3"
         if self.isDot(i - 1, j - 1):
             return False
         if self.isDot(i - 1, j):

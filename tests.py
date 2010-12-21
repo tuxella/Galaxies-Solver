@@ -31,8 +31,16 @@ class SelfSufficiantTest(unittest.TestCase):
         expected.add((7, 3))
         expected.add((7, 7))
         expected.add((5, 5))
-
         self.assertEquals(expected, b.adjacentCells(7, 5))
+
+    def testAdjacentCellsCentralWithWall(self):
+        b = Board(4, 4)
+        expected = set()
+        expected.add((5, 5))
+        expected.add((3, 3))
+        expected.add((7, 3))
+        b.addWall(5, 2)
+        self.assertEquals(expected, b.adjacentCells(5, 3))
 
     def testShapeInEmptyBoard(self):
         return
