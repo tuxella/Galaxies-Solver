@@ -40,6 +40,106 @@ class SelfSufficiantTest(unittest.TestCase):
         b.addWall(2, 1)
         self.assertEquals(expected, b.findShapeAroundCell(1, 1, set()))
 
+    def testFindComplexShape(self):
+        expected = set()
+        expected.add((1, 1))
+        expected.add((1, 3))
+        expected.add((1, 5))
+        expected.add((1, 7))
+        b = Board(4,4)
+        b.addWall(2, 1)
+        b.addWall(2, 3)
+        b.addWall(2, 5)
+        b.addWall(2, 7)
+        self.assertEquals(expected, b.findShapeAroundCell(1, 1, set()))
+
+    def testFindComplexShape2(self):
+        expected = set()
+        expected.add((1, 1))
+        expected.add((1, 3))
+        expected.add((1, 5))
+        expected.add((1, 7))
+        expected.add((3, 5))
+        expected.add((3, 7))
+        expected.add((5, 5))
+        expected.add((5, 7))
+        expected.add((7, 5))
+        expected.add((7, 7))
+        b = Board(4,4)
+        b.addWall(2, 1)
+        b.addWall(2, 3)
+        b.addWall(3, 4)
+        b.addWall(5, 4)
+        b.addWall(7, 4)
+        self.assertEquals(expected, b.findShapeAroundCell(1, 1, set()))
+
+    def testFindConcavShape(self):
+        expected = set()
+        expected.add((1, 1))
+        expected.add((1, 3))
+        expected.add((1, 5))
+        expected.add((1, 7))
+
+        expected.add((3, 7))
+        expected.add((5, 7))
+        expected.add((7, 7))
+
+        expected.add((7, 5))
+        expected.add((7, 3))
+        expected.add((7, 1))
+
+        expected.add((5, 1))
+        expected.add((3, 1))
+        expected.add((1, 1))
+
+        b = Board(4,4)
+        b.addWall(2, 3)
+        b.addWall(2, 5)
+        b.addWall(3, 6)
+        b.addWall(5, 6)
+        b.addWall(6, 5)
+        b.addWall(6, 3)
+        b.addWall(5, 2)
+        b.addWall(3, 2)
+
+        self.assertEquals(expected, b.findShapeAroundCell(1, 1, set()))
+        self.assertEquals(expected, b.findShapeAroundCell(7, 7, set()))
+
+    def testFindCutConcavShape(self):
+        expected = set()
+        expected.add((1, 1))
+        expected.add((1, 3))
+        expected.add((1, 5))
+        expected.add((1, 7))
+
+        expected.add((3, 7))
+        expected.add((5, 7))
+
+        expected.add((7, 5))
+        expected.add((7, 3))
+        expected.add((7, 1))
+
+        expected.add((5, 1))
+        expected.add((3, 1))
+        expected.add((1, 1))
+
+        b = Board(4,4)
+        b.addWall(2, 3)
+        b.addWall(2, 5)
+        b.addWall(3, 6)
+        b.addWall(5, 6)
+        b.addWall(6, 5)
+        b.addWall(6, 3)
+        b.addWall(5, 2)
+        b.addWall(3, 2)
+
+        b.addWall(7, 6)
+        b.addWall(6, 7)
+        self.assertEquals(expected, b.findShapeAroundCell(1, 1, set()))
+        expected2 = set()
+        expected2.add((7, 7))
+        self.assertEquals(expected2, b.findShapeAroundCell(7, 7, set()))
+
     def testAdjacentCells11(self):
         b = Board(2, 2)
         expected = set()
