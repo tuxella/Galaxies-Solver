@@ -237,7 +237,6 @@ class Board(object):
         return False
 
     def dotsPossiblePlaces(self, firsti = 1, firstj = 1):
-#        print "Init DPP"
         for i in range(firsti, len(self.board) - 1):
             for j in range(firstj, len(self.board[i]) - 1):
                 yield {"i":i, "j":j}
@@ -256,7 +255,6 @@ class Board(object):
 
     def _posPlusOffset(self, i, j, offset):
         for pos in self.dotsPossiblePlaces(i, j):
-#            print "PPO : (%d, %d) + %d => (%d, %d)" % (i, j, offset, pos["i"], pos["j"])
             if (0 >= offset):
                 return {"i":pos["i"], "j":pos["j"]}
             offset = offset - 1
@@ -264,6 +262,16 @@ class Board(object):
     def isSolved(self):
         return False
 
+    def findShapeAroundCell(self, i, j, metCells):
+        """
+        Returns only once each cell of the shape
+        """
+        if ((i, j) in metCells):
+            return
+        metCells.add((i, j))
+        for c in self.adjacentCells(i, j):
+            self.findShapeAroundCell(c[0], c[1], metCells)
+        return metCells
 
     def cellBelongsToValidShape(self, i, j):
         """
@@ -271,6 +279,8 @@ class Board(object):
             - Contains 1 and only 1 dot
             - Doesn't contain any wall (excepting for its edges)
         """
+        #Find the dot and check there is only one
+        #Check the shape is symetrical
 
     def wallsAroundCell(self, i, j):
         """

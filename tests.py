@@ -4,6 +4,49 @@ from galaxySolver import Board
 import unittest
 
 class SelfSufficiantTest(unittest.TestCase):
+    def testShapeInEmptyBoard(self):
+        expected = set()
+        expected.add((1, 1))
+        expected.add((1, 3))
+        expected.add((3, 1))
+        expected.add((3, 3))
+        b = Board(2,2)
+        self.assertEquals(expected, b.findShapeAroundCell(1, 1, set()))
+
+    def testShapeInEmptyBoardWithFakeWall(self):
+        expected = set()
+        expected.add((1, 1))
+        expected.add((1, 3))
+        expected.add((3, 1))
+        expected.add((3, 3))
+        b = Board(2,2)
+        b.addWall(1, 2)
+        self.assertEquals(expected, b.findShapeAroundCell(1, 1, set()))
+
+    def testLittleShape(self):
+        expected = set()
+        expected.add((1, 1))
+        expected.add((3, 1))
+        b = Board(2,2)
+        b.addWall(1, 2)
+        b.addWall(3, 2)
+        self.assertEquals(expected, b.findShapeAroundCell(1, 1, set()))
+
+    def testMonoCellShape(self):
+        expected = set()
+        expected.add((1, 1))
+        b = Board(2,2)
+        b.addWall(1, 2)
+        b.addWall(2, 1)
+        self.assertEquals(expected, b.findShapeAroundCell(1, 1, set()))
+
+    def testAdjacentCells11(self):
+        b = Board(2, 2)
+        expected = set()
+        expected.add((3, 1))
+        expected.add((1, 3))
+        self.assertEquals(expected, b.adjacentCells(1, 1))
+
     def testAdjacentCellsCentral(self):
         b = Board(4, 4)
         expected = set()
