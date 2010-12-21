@@ -126,25 +126,7 @@ class Board(object):
         else:
             self.board[i][j] = self._dotCell
 
-    def addWall(self, i, j, orientation):
-        """
-        Orientation = h or v (horizontal or vertical)
-        If horizontal : i = row number after which create the wall
-        If vertical : i = row number after which create the wall
-        j = the nth wall to add (1, 2, 3 ...)
-        """
-        if ("h" == orientation):
-            if self.isDot(i * 2, j * 2 - 1):
-                self.board[i * 2][j * 2 - 1] = self._dotWall
-            else:
-                self.board[i * 2][j * 2 - 1] = self._wallh
-        if ("v" == orientation):
-            if self.isDot(i * 2 - 1, j * 2):
-                self.board[i * 2 - 1][j * 2] = self._dotWall
-            else:
-                self.board[i * 2 - 1][j * 2] = self._wallv
-
-    def addWallShort(self, i, j):
+    def addWall(self, i, j):
         """
         Add a wall on the board.
         Arguments are taken in the wall way (full cells only)

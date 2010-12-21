@@ -136,22 +136,17 @@ i
 
     def testAddWallShortForm(self):
         b = Board(4, 4)
-        b.addWallShort(1, 2)
+        b.addWall(1, 2)
         self.assertTrue(b.isWall(1, 2))
         self.assertFalse(b.isWall(1, 4))
         self.assertFalse(b.isWall(2, 1))
         self.assertFalse(b.isDot(1, 3))
-        b.addWallShort(0, 1)
+        b.addWall(0, 1)
         self.assertTrue(b.isWall(0, 1))
         self.assertTrue(b.isWall(1, 2))
         self.assertFalse(b.isWall(1, 4))
         self.assertFalse(b.isWall(2, 1))
         self.assertFalse(b.isDot(1, 3))
-
-    def testAddWall(self):
-        b = Board(4, 4)
-        b.addWall(1, 1, "h")
-        self.assertTrue(b.isWall(2, 1))
 
     def testWallsAroundCentralCell(self):
         b = Board(4,4)
@@ -168,17 +163,17 @@ i
     def testWallsAroundSomeWalledCell(self):
         b = Board(4,4)
         expected = set()
-        b.addWallShort(4, 5)
+        b.addWall(4, 5)
         expected.add((4, 5))
         self.assertEquals(b.wallsAroundCell(5, 5), expected)
 
     def testWallsAroundSomeFullyWalledCell(self):
         b = Board(4,4)
         expected = set()
-        b.addWallShort(4, 5)
-        b.addWallShort(6, 5)
-        b.addWallShort(5, 4)
-        b.addWallShort(5, 6)
+        b.addWall(4, 5)
+        b.addWall(6, 5)
+        b.addWall(5, 4)
+        b.addWall(5, 6)
 
         expected.add((4, 5))
         expected.add((6, 5))
@@ -189,10 +184,10 @@ i
     def testWallsAroundSomeFullyWalledCellAsym(self):
         b = Board(4,4)
         expected = set()
-        b.addWallShort(2, 5)
-        b.addWallShort(4, 5)
-        b.addWallShort(3, 4)
-        b.addWallShort(3, 6)
+        b.addWall(2, 5)
+        b.addWall(4, 5)
+        b.addWall(3, 4)
+        b.addWall(3, 6)
         expected.add((2, 5))
         expected.add((4, 5))
         expected.add((3, 4))
@@ -336,11 +331,11 @@ i
 
     def testIsWall(self):
         b = Board(2,2)
-        self.assertFalse(b.isWall(1, 1))
-        b.addWall(1, 1, "h")
+        self.assertFalse(b.isWall(2, 1))
+        b.addWall(2, 1)
         self.assertTrue(b.isWall(2, 1))
         self.assertFalse(b.isWall(1, 2))
-        b.addWall(1, 1, "v")
+        b.addWall(1, 2)
         self.assertTrue(b.isWall(2, 1))
         self.assertTrue(b.isWall(1, 2))
 
@@ -353,7 +348,7 @@ i
 
     def testDotOnWall(self):
         b = Board(2,2)
-        b.addWallShort(1, 2)
+        b.addWall(1, 2)
         b.addDot(1, 2)
         self.assertEquals(
             """  0 1 j
