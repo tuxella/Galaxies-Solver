@@ -4,6 +4,190 @@ from galaxySolver import Board
 import unittest
 
 class SelfSufficiantTest(unittest.TestCase):
+    def testOuterShapeSimple(self):
+        b = Board(4, 4)
+        cells = set()
+        cells.add((3, 3))
+        cells.add((3, 5))
+        cells.add((5, 3))
+        cells.add((5, 5))
+
+
+        b.addWall(2, 3)
+        b.addWall(2, 5)
+        b.addWall(3, 2)
+        b.addWall(3, 6)
+        b.addWall(5, 2)
+        b.addWall(5, 6)
+        b.addWall(6, 3)
+        b.addWall(6, 5)
+
+
+        walls = set()
+        walls.add((2, 3))
+        walls.add((2, 5))
+        walls.add((3, 2))
+        walls.add((3, 6))
+        walls.add((5, 2))
+        walls.add((5, 6))
+        walls.add((6, 3))
+        walls.add((6, 5))
+
+        resultWalls = b.findOuterWalls(cells)
+        self.assertEquals(walls, resultWalls)
+
+    def testOuterShapeConcav(self):
+        b = Board(4, 4)
+        cells = set()
+        cells.add((1, 1))
+        cells.add((1, 3))
+        cells.add((1, 5))
+        cells.add((1, 7))
+
+        cells.add((3, 1))
+        cells.add((3, 7))
+
+        cells.add((5, 1))
+        cells.add((5, 7))
+
+        cells.add((7, 1))
+        cells.add((7, 3))
+        cells.add((7, 5))
+        cells.add((7, 7))
+
+        b.addWall(2, 3)
+        b.addWall(2, 5)
+        b.addWall(3, 2)
+        b.addWall(3, 6)
+        b.addWall(5, 2)
+        b.addWall(5, 6)
+        b.addWall(6, 3)
+        b.addWall(6, 5)
+
+
+        walls = set()
+        walls.add((2, 3))
+        walls.add((2, 5))
+        walls.add((3, 2))
+        walls.add((3, 6))
+        walls.add((5, 2))
+        walls.add((5, 6))
+        walls.add((6, 3))
+        walls.add((6, 5))
+
+        walls.add((0, 1))
+        walls.add((0, 3))
+        walls.add((0, 5))
+        walls.add((0, 7))
+
+        walls.add((1, 0))
+        walls.add((1, 8))
+        walls.add((3, 0))
+        walls.add((3, 8))
+        walls.add((5, 0))
+        walls.add((5, 8))
+        walls.add((7, 0))
+        walls.add((7, 8))
+
+        walls.add((8, 1))
+        walls.add((8, 3))
+        walls.add((8, 5))
+        walls.add((8, 7))
+
+        resultWalls = b.findOuterWalls(cells)
+        self.assertEquals(walls, resultWalls)
+
+    def testOuterShapeEmptyBoard(self):
+        b = Board(2, 2)
+        cells = set()
+        cells.add((1, 1))
+        cells.add((1, 3))
+        cells.add((3, 1))
+        cells.add((3, 3))
+
+        walls = set()
+        walls.add((0, 1))
+        walls.add((0, 3))
+        walls.add((1, 0))
+        walls.add((1, 4))
+        walls.add((3, 0))
+        walls.add((3, 4))
+        walls.add((4, 1))
+        walls.add((4, 3))
+
+        resultWalls = b.findOuterWalls(cells)
+        self.assertEquals(walls, resultWalls)
+
+
+    def testOuterShapeSingleCell(self):
+        b = Board(4, 4)
+        cells = set()
+        cells.add((3, 3))
+
+        b.addWall(2, 3)
+        b.addWall(3, 2)
+        b.addWall(3, 4)
+        b.addWall(4, 3)
+
+        walls = set()
+        walls.add((2, 3))
+        walls.add((3, 2))
+        walls.add((3, 4))
+        walls.add((4, 3))
+
+        resultWalls = b.findOuterWalls(cells)
+        self.assertEquals(walls, resultWalls)
+
+    def testOuterShapeEmptyBoardDumbWall(self):
+        b = Board(2, 2)
+        cells = set()
+        cells.add((1, 1))
+        cells.add((1, 3))
+        cells.add((3, 1))
+        cells.add((3, 3))
+
+        b.addWall(1, 2) # A wall that doesn't frontier the shape
+
+        walls = set()
+        walls.add((0, 1))
+        walls.add((0, 3))
+        walls.add((1, 0))
+        walls.add((1, 4))
+        walls.add((3, 0))
+        walls.add((3, 4))
+        walls.add((4, 1))
+        walls.add((4, 3))
+
+        resultWalls = b.findOuterWalls(cells)
+        self.assertEquals(walls, resultWalls)
+
+    def testOuterShapeEmptyBoardFrontieringShape(self):
+        b = Board(2, 2)
+        cells = set()
+        cells.add((1, 1))
+        cells.add((1, 3))
+        cells.add((3, 1))
+        cells.add((3, 3))
+
+        b.addWall(1, 2) # 2 walls that make another shape near the first one
+        b.addWall(2, 3)
+
+        walls = set()
+        walls.add((0, 1))
+        walls.add((0, 3))
+        walls.add((1, 0))
+        walls.add((1, 4))
+        walls.add((3, 0))
+        walls.add((3, 4))
+        walls.add((4, 1))
+        walls.add((4, 3))
+
+        resultWalls = b.findOuterWalls(cells)
+        self.assertEquals(walls, resultWalls)
+
+    def testOuterShapeComplex(self):
+        b = Board(4, 4)
+
     def testShapeInEmptyBoard(self):
         expected = set()
         expected.add((1, 1))

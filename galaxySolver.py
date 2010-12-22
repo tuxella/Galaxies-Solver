@@ -367,3 +367,42 @@ class Board(object):
             return False
 
         return True
+
+
+    def findOuterWalls(self, cells):
+        """
+        Takes a set of cells and finds walls that frontier the shape
+        """
+        isInShape = False
+        ret = set()
+        for i in range(1, len(self.board), 2):
+            if isInShape:
+                ret.add((i, 0)) #add outer walls
+            for j in range(1, len(self.board[i]), 2):
+                if (i, j) in cells:
+                    if not isInShape:
+                        isInShape = True
+                        ret.add((i, j - 1))
+                else:
+                    if isInShape:
+                        isInShape = False
+                        ret.add((i, j - 1))
+            if isInShape:
+                ret.add((i, j + 1)) #add outer walls
+        isInShape = False
+        for j in range(1, len(self.board[i]), 2):
+            if isInShape:
+                ret.add((0, j)) #add outer walls
+            for i in range(1, len(self.board), 2):
+                if (i, j) in cells:
+                    if not isInShape:
+                        isInShape = True
+                        ret.add((i - 1, j))
+                else:
+                    if isInShape:
+                        isInShape = False
+                        ret.add((i - 1, j))
+            if isInShape:
+                ret.add((i + 1, j)) #add outer walls
+        return ret
+
