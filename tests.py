@@ -798,3 +798,9 @@ i
 if __name__ == "__main__":
     unittest.main()
     exit (0)
+
+# Count how many times each function is called within Board
+#for f in `grep def galaxySolver.py | grep -ve "^#" | sed -e "s/.*def //" | sed -e "s/(.*)://g"`; do echo $f; grep "self.$f" galaxySolver.py | grep -v "def" | wc -l; done
+
+# Count how many tests call each functions
+#for f in `grep def galaxySolver.py | grep -ve "^#" | sed -e "s/.*def //" | sed -e "s/(.*)://g"`; do echo $f; grep "$f" tests.py | grep -v "def" | wc -l; done
