@@ -406,3 +406,20 @@ class Board(object):
                 ret.add((i + 1, j)) #add outer walls
         return ret
 
+    def dotSeesCell(self, di, dj, ci, cj, metCells = None):
+        """
+        A dot can see a cell if it is possible to create a path of cells that don't contain a dot (not even on edges)
+        """
+        if None == metCells:
+            metCells = set()
+        if (di == ci) and (dj == cj):
+            return True
+        adj = self.adjacentCells(ci, cj)
+        for c in adj:
+            if c in metCells:
+                continue
+            metCells.add(c)
+            if not self.cellContainsDotExcept(c[0], c[1], di, dj):
+                if self.dotSeesCell(di, dj, c[0], c[1], metCells):
+                    return True
+        return False

@@ -4,6 +4,49 @@ from galaxySolver import Board
 import unittest
 
 class SelfSufficiantTest(unittest.TestCase):
+    def testdotSeesCellEmptyBoard(self):
+        b = Board(4, 4)
+        b.addDot(1, 1)
+        self.assertTrue(b.dotSeesCell(1, 1, 3, 3))
+
+    def testdotSeesCellLotsOfDots(self):
+        b = Board(4, 4)
+        b.addDot(1, 1)
+        b.addDot(1, 3)
+        b.addDot(3, 1)
+        self.assertFalse(b.dotSeesCell(1, 1, 3, 3))
+
+    def testdotSeesCellSomeDots(self):
+        b = Board(4, 4)
+        b.addDot(1, 1)
+        b.addDot(3, 1)
+        self.assertTrue(b.dotSeesCell(1, 1, 3, 3))
+
+    def testdotSeesCellSomeDotsCanBeBypassed(self):
+        b = Board(4, 4)
+        b.addDot(1, 1)
+        b.addDot(1, 3)
+        b.addDot(3, 3)
+        b.addDot(5, 3)
+        self.assertTrue(b.dotSeesCell(1, 1, 7, 7))
+
+    def testdotSeesCellSomeDotsCannotBeBypassed(self):
+        b = Board(4, 4)
+        b.addDot(1, 1)
+        b.addDot(1, 3)
+        b.addDot(3, 3)
+        b.addDot(5, 3)
+        b.addDot(7, 3)
+        self.assertFalse(b.dotSeesCell(1, 1, 7, 7))
+
+    def testdotSeesCellSomeDotsCannotBeBypassedDotOnWall(self):
+        b = Board(4, 4)
+        b.addDot(1, 1)
+        b.addDot(1, 3)
+        b.addDot(3, 2)
+        b.addDot(5, 3)
+        self.assertFalse(b.dotSeesCell(1, 1, 7, 7))
+
     def testOuterShapeSimple(self):
         b = Board(4, 4)
         cells = set()
