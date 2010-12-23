@@ -4,6 +4,20 @@ from galaxySolver import Board
 import unittest
 
 class SelfSufficiantTest(unittest.TestCase):
+    def testmanathanDist(self):
+        b = Board(4, 4)
+        self.assertEquals(b.manathanDistanceBetweenPoints(1, 1, 1, 1), 0)
+        self.assertEquals(b.manathanDistanceBetweenPoints(1, 1, 1, 2), 1)
+        self.assertEquals(b.manathanDistanceBetweenPoints(1, 1, 7, 7), 12)
+        self.assertEquals(b.manathanDistanceBetweenPoints(1, 1, 1, 7), 6)
+        self.assertEquals(b.manathanDistanceBetweenPoints(1, 1, 7, 1), 6)
+        self.assertEquals(b.manathanDistanceBetweenPoints(7, 1, 1, 1), 6)
+
+    def testdotSeesCellHalfCellAway(self):
+        b = Board(4, 4)
+        b.addDot(1, 2)
+        self.assertTrue(b.dotSeesCell(1, 2, 1, 1))
+
     def testdotSeesCellEmptyBoard(self):
         b = Board(4, 4)
         b.addDot(1, 1)

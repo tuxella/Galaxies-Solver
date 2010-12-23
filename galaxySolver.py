@@ -211,6 +211,7 @@ class Board(object):
             - belongs to the Board
             - doesn't contain a dot
             - isn't edged by a dot
+            - is seen by the dot (there is a path between them)
         """
 #        print "cellCanBelongToDot : cell = (%d, %d) dot = (%d, %d)" % (ci, cj, di, dj)
         cellToDoti = di - ci
@@ -221,6 +222,8 @@ class Board(object):
         if not self.cellIsWithinBoard(si, sj):
             return False
         if (self.cellContainsDotExcept(si, sj, di, dj)):
+            return False
+        if (not self.dotSeesCell(di, dj, ci, cj)) or (not self.dotSeesCell(di, dj, si, sj)):
             return False
         return True
 
@@ -272,15 +275,6 @@ class Board(object):
         for c in self.adjacentCells(i, j):
             self.findShapeAroundCell(c[0], c[1], metCells)
         return metCells
-
-    def cellBelongsToValidShape(self, i, j):
-        """
-        A cell is inside a valid shape is this shape:
-            - Contains 1 and only 1 dot
-            - Doesn't contain any wall (excepting for its edges)
-        """
-        #Find the dot and check there is only one
-        #Check the shape is symetrical
 
     def wallsAroundCell(self, i, j):
         """
@@ -406,13 +400,17 @@ class Board(object):
                 ret.add((i + 1, j)) #add outer walls
         return ret
 
+    def manathanDistanceBetweenPoints(self, i1, j1, i2, j2):
+        return abs((i2 - i1) + (j2 - j1))
+
     def dotSeesCell(self, di, dj, ci, cj, metCells = None):
         """
-        A dot can see a cell if it is possible to create a path of cells that don't contain a dot (not even on edges)
+        A dot can see a cell if it is possible to create a path of cells that don't contain a
+        dot (not even on edges)
         """
         if None == metCells:
             metCells = set()
-        if (di == ci) and (dj == cj):
+        if (self.manathanDistanceBetweenPoints(di, dj, ci, cj) <= 1):
             return True
         adj = self.adjacentCells(ci, cj)
         for c in adj:
@@ -423,3 +421,12 @@ class Board(object):
                 if self.dotSeesCell(di, dj, c[0], c[1], metCells):
                     return True
         return False
+
+    def cellBelongsToValidShape(self, i, j):
+        """
+        A cell is inside a valid shape is this shape:
+            - Contains 1 and only 1 dot
+            - Doesn't contain any wall (excepting for its edges)
+        """
+        #Find the dot and check there is only one
+        #Check the shape is symetrical
